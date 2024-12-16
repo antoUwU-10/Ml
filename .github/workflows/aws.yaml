@@ -23,17 +23,20 @@ jobs:
           echo "Actualizando paquetes e instalando dependencias..."
           sudo apt-get update -y
           sudo apt-get install -y apache2 git unzip
+
           # Iniciar y habilitar el servicio Apache
           echo "Configurando Apache..."
           sudo systemctl start apache2
           sudo systemctl enable apache2
-          # Verificar y crear el directorio si no existe
+
+          # Verificar y crear el directorio /var/www/html si no existe
           echo "Verificando el directorio /var/www/html..."
           if [ ! -d "/var/www/html" ]; then
               echo "El directorio no existe, creando..."
               sudo mkdir -p /var/www/html
               sudo chown ubuntu:ubuntu /var/www/html
           fi
+
           # Ir al directorio y clonar o actualizar el repositorio
           cd /var/www/html
           echo "Directorio actual: $(pwd)"
@@ -44,11 +47,27 @@ jobs:
               echo "No es un repositorio Git. Clonando el repositorio..."
               git clone https://github.com/antoUwU-10/Ml.git .
           fi
+
+          # Asegurarse de que el archivo index.html está presente
+          if [ ! -f "/var/www/html/index.html" ]; then
+              echo "No se encontró el archivo index.html. Asegúrate de que esté en el repositorio."
+              exit 1
+          fi
+
           # Ajustar permisos para que Apache pueda acceder
           echo "Ajustando permisos..."
           sudo chmod -R 755 /var/www/html
           sudo chown -R www-data:www-data /var/www/html
+
           # Reiniciar Apache para cargar los cambios
           echo "Reiniciando Apache..."
           sudo systemctl restart apache2
+
+          # Verificar que Apache esté funcionando correctamente
+          echo "Verificando el estado de Apache..."
+          sudo systemctl status apache2 | grep "active (running)"
+
+          # Verificar que el sitio web sea accesible (opcional, puedes desactivarlo si no es necesario)
+          echo "Verificando que la página web esté accesible..."
+          curl -I http://localhost | grep "200 OK"
           EOF
