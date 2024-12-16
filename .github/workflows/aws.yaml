@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,33 +19,13 @@ jobs:
       - name: Despliegue en Lightsail
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF'
-          # Verificar si Apache está instalado, si no, instalarlo
-          echo "Instalando Apache..."
-          sudo apt-get update -y
-          sudo apt-get install -y apache2 git
-
-          # Iniciar y habilitar Apache
-          sudo systemctl start apache2
-          sudo systemctl enable apache2
-
-          # Ir al directorio donde Apache sirve los archivos
           cd /var/www/html
-
-          # Si ya es un repositorio Git, actualizar con git pull
+          #sudo rm -rf *
           if [ -d ".git" ]; then
-              echo "Repositorio git encontrado, actualizando..."
+              # Si es un repositorio git, hacer pull 
               git pull origin main
           else
-              # Si no es un repositorio git, clonar el repositorio
-              echo "Repositorio git no encontrado, clonando..."
+              # Si no existe, clonar el repositorio
               git clone https://github.com/antoUwU-10/Ml.git .
           fi
-
-          # Ajustar los permisos para que Apache pueda acceder
-          sudo chown -R www-data:www-data /var/www/html
-          sudo chmod -R 755 /var/www/html
-
-          # Reiniciar Apache para aplicar los cambios
-          echo "Reiniciando Apache..."
-          sudo systemctl restart apache2
           EOF
