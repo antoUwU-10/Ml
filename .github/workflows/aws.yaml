@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,40 +20,33 @@ jobs:
       - name: Despliegue en Lightsail
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF'
-          # Actualizar paquetes e instalar dependencias necesarias
-          echo "Actualizando paquetes e instalando dependencias..."
+          # Verificar si Apache está instalado, si no, instalarlo
+          echo "Instalando Apache..."
           sudo apt-get update -y
-          sudo apt-get install -y apache2 git unzip
+          sudo apt-get install -y apache2 git
 
-          # Iniciar y habilitar el servicio Apache
-          echo "Configurando Apache..."
+          # Iniciar y habilitar Apache
           sudo systemctl start apache2
           sudo systemctl enable apache2
 
-          # Verificar y limpiar el directorio /var/www/html
-          echo "Verificando el directorio /var/www/html..."
-          if [ ! -d "/var/www/html" ]; then
-              echo "El directorio no existe, creando..."
-              sudo mkdir -p /var/www/html
-              sudo chown ubuntu:ubuntu /var/www/html
+          # Ir al directorio donde Apache sirve los archivos
+          cd /var/www/html
+
+          # Si ya es un repositorio Git, actualizar con git pull
+          if [ -d ".git" ]; then
+              echo "Repositorio git encontrado, actualizando..."
+              git pull origin main
           else
-              echo "Limpiando el directorio /var/www/html..."
-              sudo rm -rf /var/www/html/*
+              # Si no es un repositorio git, clonar el repositorio
+              echo "Repositorio git no encontrado, clonando..."
+              git clone https://github.com/antoUwU-10/Ml.git .
           fi
 
-          # Ir al directorio y clonar o actualizar el repositorio
-          cd /var/www/html
-          echo "Directorio actual: $(pwd)"
-          git clone https://github.com/antoUwU-10/Ml.git .
-
-          # Ajustar permisos para que Apache pueda acceder
-          echo "Ajustando permisos..."
-          sudo chmod -R 755 /var/www/html
+          # Ajustar los permisos para que Apache pueda acceder
           sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 755 /var/www/html
 
-          # Configuración adicional para asegurarse de que se sirvan los archivos correctamente
-          echo "Eliminando archivos de configuración predeterminados de Apache..."
-          sudo rm -f /var/www/html/index.html
+          # Reiniciar Apache para aplicar los cambios
+          echo "Reiniciando Apache..."
           sudo systemctl restart apache2
-
           EOF
