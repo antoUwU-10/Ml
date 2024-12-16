@@ -37,16 +37,15 @@ jobs:
               sudo chown ubuntu:ubuntu /var/www/html
           fi
 
+          # Eliminar contenido existente en el directorio /var/www/html antes de clonar
+          echo "Eliminando contenido previo en /var/www/html..."
+          sudo rm -rf /var/www/html/*
+
           # Ir al directorio y clonar o actualizar el repositorio
           cd /var/www/html
           echo "Directorio actual: $(pwd)"
-          if [ -d ".git" ]; then
-              echo "Repositorio Git encontrado. Haciendo pull..."
-              git pull origin main
-          else
-              echo "No es un repositorio Git. Clonando el repositorio..."
-              git clone https://github.com/antoUwU-10/Ml.git .
-          fi
+          echo "Clonando el repositorio..."
+          git clone https://github.com/antoUwU-10/Ml.git .
 
           # Asegurarse de que el archivo index.html está presente
           if [ ! -f "/var/www/html/index.html" ]; then
