@@ -19,13 +19,20 @@ jobs:
       - name: Despliegue en Lightsail
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@54.89.2.115 << 'EOF'
+          echo "Verificando el directorio /var/www/html"
+          if [ ! -d "/var/www/html" ]; then
+              echo "El directorio no existe, creando..."
+              sudo mkdir -p /var/www/html
+              sudo chown ubuntu:ubuntu /var/www/html
+          fi
           cd /var/www/html
-          #sudo rm -rf *
+          echo "Directorio actual: $(pwd)"
           if [ -d ".git" ]; then
-              # Si es un repositorio git, hacer pull 
+              echo "Repositorio Git encontrado. Haciendo pull..."
               git pull origin main
           else
-              # Si no existe, clonar el repositorio
+              echo "No es un repositorio Git. Clonando el repositorio..."
               git clone https://github.com/antoUwU-10/Ml.git .
           fi
           EOF
+
