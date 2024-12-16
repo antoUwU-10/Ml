@@ -41,6 +41,11 @@ jobs:
           echo "Eliminando contenido previo en /var/www/html..."
           sudo rm -rf /var/www/html/*
 
+          # Ajustar permisos en el directorio /var/www/html para el usuario correcto
+          echo "Ajustando permisos en /var/www/html..."
+          sudo chown -R ubuntu:ubuntu /var/www/html
+          sudo chmod -R 755 /var/www/html
+
           # Ir al directorio y clonar o actualizar el repositorio
           cd /var/www/html
           echo "Directorio actual: $(pwd)"
