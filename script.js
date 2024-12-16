@@ -43,4 +43,3 @@ setInterval(updateCountdown, 1000);
 
 // Llama a la función una vez para mostrar el mensaje de inmediato al cargar
 updateCountdown();
-
