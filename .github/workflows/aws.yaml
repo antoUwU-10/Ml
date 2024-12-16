@@ -34,34 +34,45 @@ jobs:
           if [ ! -d "/var/www/html" ]; then
               echo "El directorio no existe, creando..."
               sudo mkdir -p /var/www/html
-              sudo chown ubuntu:ubuntu /var/www/html
           fi
 
-          # Eliminar contenido existente en el directorio /var/www/html antes de clonar
-          echo "Eliminando contenido previo en /var/www/html..."
-          sudo rm -rf /var/www/html/*
-
-          # Ajustar permisos en el directorio /var/www/html para el usuario correcto
-          echo "Ajustando permisos en /var/www/html..."
+          # Ajustar permisos en el directorio para el usuario actual
           sudo chown -R ubuntu:ubuntu /var/www/html
           sudo chmod -R 755 /var/www/html
 
-          # Ir al directorio y clonar o actualizar el repositorio
-          cd /var/www/html
-          echo "Directorio actual: $(pwd)"
-          echo "Clonando el repositorio..."
-          git clone https://github.com/antoUwU-10/Ml.git .
+          # Eliminar contenido existente en el directorio /var/www/html
+          echo "Eliminando contenido previo en /var/www/html..."
+          sudo rm -rf /var/www/html/* /var/www/html/.git
 
-          # Asegurarse de que el archivo index.html está presente
+          # Clonar el repositorio en el directorio
+          echo "Clonando el repositorio..."
+          git clone https://github.com/antoUwU-10/Ml.git /tmp/ml-temp
+
+          # Verificar si el clon fue exitoso
+          if [ $? -ne 0 ]; then
+              echo "Error al clonar el repositorio. Por favor verifica el enlace."
+              exit 1
+          fi
+
+          # Mover el contenido al directorio /var/www/html
+          echo "Moviendo el contenido al directorio /var/www/html..."
+          sudo mv /tmp/ml-temp/* /var/www/html
+          sudo mv /tmp/ml-temp/.git /var/www/html
+
+          # Limpiar el directorio temporal
+          rm -rf /tmp/ml-temp
+
+          # Asegurarse de que el archivo index.html esté presente
+          echo "Verificando que el archivo index.html esté presente..."
           if [ ! -f "/var/www/html/index.html" ]; then
               echo "No se encontró el archivo index.html. Asegúrate de que esté en el repositorio."
               exit 1
           fi
 
           # Ajustar permisos para que Apache pueda acceder
-          echo "Ajustando permisos..."
-          sudo chmod -R 755 /var/www/html
+          echo "Ajustando permisos para Apache..."
           sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 755 /var/www/html
 
           # Reiniciar Apache para cargar los cambios
           echo "Reiniciando Apache..."
@@ -69,9 +80,15 @@ jobs:
 
           # Verificar que Apache esté funcionando correctamente
           echo "Verificando el estado de Apache..."
-          sudo systemctl status apache2 | grep "active (running)"
+          if ! sudo systemctl status apache2 | grep -q "active (running)"; then
+              echo "Apache no está funcionando correctamente."
+              exit 1
+          fi
 
-          # Verificar que el sitio web sea accesible (opcional, puedes desactivarlo si no es necesario)
+          # Verificar que el sitio web sea accesible
           echo "Verificando que la página web esté accesible..."
-          curl -I http://localhost | grep "200 OK"
+          if ! curl -I http://localhost 2>/dev/null | grep -q "200 OK"; then
+              echo "La página web no está accesible. Verifica la configuración."
+              exit 1
+          fi
           EOF
