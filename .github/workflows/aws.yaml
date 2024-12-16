@@ -18,7 +18,7 @@ jobs:
 
       - name: Despliegue en Lightsail
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF' 
           # Actualizar paquetes e instalar dependencias necesarias
           echo "Actualizando paquetes e instalando dependencias..."
           sudo apt-get update -y
