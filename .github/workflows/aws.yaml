@@ -19,12 +19,22 @@ jobs:
       - name: Despliegue en Lightsail
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@52.90.210.202 << 'EOF'
-          echo "Verificando el directorio /var/www/html"
+          # Actualizar paquetes e instalar dependencias necesarias
+          echo "Actualizando paquetes e instalando dependencias..."
+          sudo apt-get update -y
+          sudo apt-get install -y apache2 git unzip
+          # Iniciar y habilitar el servicio Apache
+          echo "Configurando Apache..."
+          sudo systemctl start apache2
+          sudo systemctl enable apache2
+          # Verificar y crear el directorio si no existe
+          echo "Verificando el directorio /var/www/html..."
           if [ ! -d "/var/www/html" ]; then
               echo "El directorio no existe, creando..."
               sudo mkdir -p /var/www/html
               sudo chown ubuntu:ubuntu /var/www/html
           fi
+          # Ir al directorio y clonar o actualizar el repositorio
           cd /var/www/html
           echo "Directorio actual: $(pwd)"
           if [ -d ".git" ]; then
@@ -34,4 +44,11 @@ jobs:
               echo "No es un repositorio Git. Clonando el repositorio..."
               git clone https://github.com/antoUwU-10/Ml.git .
           fi
+          # Ajustar permisos para que Apache pueda acceder
+          echo "Ajustando permisos..."
+          sudo chmod -R 755 /var/www/html
+          sudo chown -R www-data:www-data /var/www/html
+          # Reiniciar Apache para cargar los cambios
+          echo "Reiniciando Apache..."
+          sudo systemctl restart apache2
           EOF
