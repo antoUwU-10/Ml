@@ -18,7 +18,7 @@ jobs:
 
       - name: Despliegue en Lightsail
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF' 
+          ssh -o StrictHostKeyChecking=no ubuntu@35.171.184.223 << 'EOF'
           # Actualizar paquetes e instalar dependencias necesarias
           echo "Actualizando paquetes e instalando dependencias..."
           sudo apt-get update -y
@@ -29,31 +29,30 @@ jobs:
           sudo systemctl start apache2
           sudo systemctl enable apache2
 
-          # Verificar y crear el directorio si no existe
+          # Verificar y limpiar el directorio /var/www/html
           echo "Verificando el directorio /var/www/html..."
           if [ ! -d "/var/www/html" ]; then
               echo "El directorio no existe, creando..."
               sudo mkdir -p /var/www/html
               sudo chown ubuntu:ubuntu /var/www/html
+          else
+              echo "Limpiando el directorio /var/www/html..."
+              sudo rm -rf /var/www/html/*
           fi
 
           # Ir al directorio y clonar o actualizar el repositorio
           cd /var/www/html
           echo "Directorio actual: $(pwd)"
-          if [ -d ".git" ]; then
-              echo "Repositorio Git encontrado. Haciendo pull..."
-              git pull origin main
-          else
-              echo "No es un repositorio Git. Clonando el repositorio..."
-              git clone https://github.com/antoUwU-10/Ml.git .
-          fi
+          git clone https://github.com/antoUwU-10/Ml.git .
 
           # Ajustar permisos para que Apache pueda acceder
           echo "Ajustando permisos..."
           sudo chmod -R 755 /var/www/html
           sudo chown -R www-data:www-data /var/www/html
 
-          # Reiniciar Apache para cargar los cambios
-          echo "Reiniciando Apache..."
+          # Configuración adicional para asegurarse de que se sirvan los archivos correctamente
+          echo "Eliminando archivos de configuración predeterminados de Apache..."
+          sudo rm -f /var/www/html/index.html
           sudo systemctl restart apache2
+
           EOF
