@@ -33,16 +33,30 @@ svg{
 .sparkle{
   /* mix-blend-mode:luminosity */
 }
-#endMessage{
+#endMessage {
   font-family: mountains_of_christmasregular;
   font-size: 2rem;
   text-anchor: middle;
   text-align: center;
   fill: #FFFFFF;
   color: #FFFFFF;
-  opacity:0;
+  opacity: 0;
   letter-spacing: 1px;
 }
+
+/* Aumentar el tamaño de la fuente en dispositivos pequeños */
+@media (max-width: 768px) {
+  #endMessage {
+    font-size: 2.5rem; /* Aumenta ligeramente el tamaño */
+  }
+}
+
+@media (max-width: 480px) {
+  #endMessage {
+    font-size: 3.5rem; /* Aumenta aún más para pantallas muy pequeñas */
+  }
+}
+
 
 a {
   color: white;
