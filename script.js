@@ -15,30 +15,3 @@
                 "+=1"); c.add(k, 0); gsap.globalTimeline.timeScale(1.5); k.vars.onComplete = function () { gsap.to('#endMessage', { opacity: 1 }) }
 })();
 
-// Fecha objetivo (ajústala a tu necesidad: Año, Mes-1, Día, Hora, Minutos, Segundos)
-const fechaObjetivo = new Date("2024-12-31T23:59:59").getTime();
-
-// Función para actualizar la cuenta regresiva
-function actualizarCuentaRegresiva() {
-    const ahora = new Date().getTime(); // Fecha actual
-    const diferencia = fechaObjetivo - ahora; // Diferencia entre fechas
-
-    // Cálculo de días, horas, minutos y segundos restantes
-    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-    // Actualizar el contenido del span
-    document.getElementById("countdownMessage").innerHTML = 
-        `Faltan ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos`;
-
-    // Detener el contador cuando llegue a 0
-    if (diferencia < 0) {
-        clearInterval(intervalo);
-        document.getElementById("countdownMessage").innerHTML = "¡La cuenta regresiva ha terminado!";
-    }
-}
-
-// Actualizar cada segundo
-const intervalo = setInterval(actualizarCuentaRegresiva, 1000);
