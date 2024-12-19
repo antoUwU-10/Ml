@@ -1,68 +1,48 @@
-@font-face {
-    font-family: 'mountains_of_christmasregular';
-    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/mountainsofchristmas-webfont.woff2') format('woff2'),
-         url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/mountainsofchristmas-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+@import url('https://fonts.googleapis.com/css?family=Cookie');
 
-}
 body {
-  background-color:#151522;
-  overflow: hidden;
-    display: flex;
-  align-items: center;
-  justify-content: center; 
-}
-
-body,
-html {
-  height: 100%;
+  background-color: #F24236;
   width: 100%;
-  margin: 0;
-  padding: 0;
+  font-family: 'Cookie', cursive;
+  overflow: hidden;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 
-svg{
-  width:90%;
-  height:90%;
-  visibility:hidden;
- 
 }
 
-.sparkle{
-  /* mix-blend-mode:luminosity */
-}
-#endMessage {
-  font-family: mountains_of_christmasregular;
-  font-size: 2rem;
-  text-anchor: middle;
+#days {
+  font-size: 50px;
+  color: #FFF;
   text-align: center;
-  fill: #FFFFFF;
-  color: #FFFFFF;
+  letter-spacing: 3px;
+}
+
+.drop {
+	position: absolute;
+	top: 0;	
+	z-index: -1;
   opacity: 0;
-  letter-spacing: 1px;
 }
-
-/* Aumentar el tamaño de la fuente en dispositivos pequeños */
-@media (max-width: 768px) {
-  #endMessage {
-    font-size: 2.5rem; /* Aumenta ligeramente el tamaño */
-  }
-}
-
-@media (max-width: 480px) {
-  #endMessage {
-    font-size: 3.5rem; /* Aumenta aún más para pantallas muy pequeñas */
-  }
+.snow {
+	height: 8px;
+	width: 8px;
+	border-radius: 100%;
+	background-color: #FFF;
+  box-shadow: 0 0 10px #FFF
 }
 
 
-a {
-  color: white;
-  text-decoration: underline dotted #FFFFFF;
+.animate {
+	animation: falling 8.5s infinite ease-in;	
 }
-a:visited {
-  color: red;
-  
+
+
+@keyframes falling {
+	0% {top: 0; opacity: 1;}
+	100% {top: 1500px; opacity: 0}
 }
