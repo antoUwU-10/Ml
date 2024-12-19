@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Cookie');
 
 body {
-  background-color: #050046;
+  background-color: #F24236;
   width: 100%;
   height: 100vh; /* Asegura que el body ocupe toda la altura de la pantalla */
   font-family: 'Cookie', cursive;
@@ -25,14 +25,12 @@ body {
   border-radius: 15px; /* Bordes redondeados */
   border: 5px solid #FFF; /* Borde blanco */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+  text-align: center;
 }
-
-/* El resto de estilos sigue igual */
 
 #days {
   font-size: 50px;
   color: #FFF;
-  text-align: center;
   letter-spacing: 3px;
 }
 
@@ -60,18 +58,15 @@ body {
   100% {top: 1500px; opacity: 0}
 }
 
-/* Estilo para la tipografía de los mensajes */
 .title {
   font-size: 2.5rem;
   color: #FFF;
-  text-align: center;
   margin-top: 20px;
 }
 
 .message {
   font-size: 1.2rem;
   color: #FFF;
-  text-align: center;
   margin-top: 10px;
   line-height: 1.6;
   max-width: 800px;
@@ -86,42 +81,50 @@ body {
 
 /* Para pantallas pequeñas (móviles) */
 @media (max-width: 600px) {
-  #days {
-    font-size: 30px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .message {
-    font-size: 1rem;
+  body {
+    font-size: 1.5rem; /* Tamaño de letra más grande en móviles */
   }
 
   .container {
-    width: 90%; /* El contenedor se ajusta más en pantallas pequeñas */
+    width: 90%; /* Ajustamos el contenedor para pantallas pequeñas */
     max-width: 500px; /* Tamaño máximo para móviles */
     padding: 15px;
+  }
+
+  #days {
+    font-size: 40px; /* Hacemos la fuente más grande */
+  }
+
+  .title {
+    font-size: 2rem; /* Aumentamos el tamaño de la fuente */
+  }
+
+  .message {
+    font-size: 1.2rem; /* Fuente más grande en los mensajes */
   }
 }
 
 /* Para pantallas medianas (tabletas) */
 @media (max-width: 1024px) and (min-width: 601px) {
-  #days {
-    font-size: 40px;
-  }
-
-  .title {
-    font-size: 2.2rem;
-  }
-
-  .message {
-    font-size: 1.1rem;
+  body {
+    font-size: 1.2rem; /* Aumento moderado de tamaño de fuente */
   }
 
   .container {
     width: 85%; /* Un poco más pequeño en pantallas medianas */
     max-width: 600px;
     padding: 20px;
+  }
+
+  #days {
+    font-size: 45px; /* Aumento de tamaño */
+  }
+
+  .title {
+    font-size: 2.2rem; /* Tamaño adecuado para tablets */
+  }
+
+  .message {
+    font-size: 1.1rem;
   }
 }
