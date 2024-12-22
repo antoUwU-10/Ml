@@ -39,12 +39,14 @@ function snowDrop(num, position) {
         var drop = `<div class="drop snow" id="drop_${num}"></div>`;
 
         $('body').append(drop);
-        $(`#drop_${num}`).css('left', position);
+        $(`#drop_${num}`).css('left', position); // Asigna la posición horizontal aleatoria
         num--;
-        snowDrop(num, randomInt(60, 1280));
+        // Cambiamos el rango de posición para abarcar el ancho completo de la pantalla
+        snowDrop(num, randomInt(0, window.innerWidth)); 
     }
 }
 
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+

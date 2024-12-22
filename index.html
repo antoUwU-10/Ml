@@ -1,42 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Feliz cumple mi ratita!</title>
-  <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+    <title>Redirección por Fecha y Hora</title>
+    <script>
+        // Función para obtener la fecha y hora ajustada a Bolivia (UTC-4)
+        function getBoliviaTime() {
+            const now = new Date();
+            const utcTime = now.getTime() + now.getTimezoneOffset() * 60000; // Convertimos a UTC
+            return new Date(utcTime - 4 * 60 * 60000); // Ajustamos a UTC-4
+        }
+
+        // Definir las fechas y horas de redirección
+        const targetDate1 = new Date("2024-12-22T05:23:00-04:00"); // 5:13 AM del 22 de diciembre de 2024
+        const targetDate2 = new Date("2024-12-22T05:23:01-04:00"); // 5:13:01 AM del 22 de diciembre de 2024
+
+        // Rutas de los archivos locales
+        const urlBefore = "./MainFolder/index.html"; // Archivo antes de las 5:13 AM
+        const urlAfter = "./Carta/index.html"; // Archivo después de las 5:13 AM
+
+        // Redirigir según la hora actual
+        function redirectBasedOnTime() {
+            const currentTime = getBoliviaTime();
+            console.log("Hora actual en Bolivia:", currentTime); // Mostrar en la consola
+
+            // Comprobamos si la hora está antes o después de las 5:13 AM
+            if (currentTime < targetDate1) {
+                console.log("Redirigiendo a MainFolder/index.html"); // Mostrar en consola
+                window.location.href = urlBefore;
+            } else if (currentTime >= targetDate2) {
+                console.log("Redirigiendo a Carta/index.html"); // Mostrar en consola
+                window.location.href = urlAfter;
+            }
+        }
+
+        // Ejecutar la redirección al cargar la página
+        window.onload = function() {
+            // Ejecutar la función inmediatamente al cargar la página
+            redirectBasedOnTime();
+
+            // Verificar cada segundo (1000 ms) si es hora de redirigir
+            setInterval(redirectBasedOnTime, 10); // 1000 ms = 1 segundo
+        }
+    </script>
 </head>
 <body>
-<div class="container">
-  <!-- Días hasta Navidad -->
-  <!--<p id="days"></p>-->
-
-  <!-- Título principal -->
-  <h1 class="title">🎄 ¡Feliz Navidad! 🎄</h1>
-
-  <!-- Mensaje 1 -->
-  <p class="message">
-    En esta fecha tan especial, quiero desearte una Navidad llena de 
-    <span class="highlight">paz</span>, 
-    <span class="highlight">amor</span> y 
-    <span class="highlight">alegría</span>. 
-    Que este día te recuerde lo valioso/a que eres y lo mucho que iluminas la vida de quienes te rodean.
-  </p>
-
-  <!-- Mensaje 2 -->
-  <p class="message">
-    🌟 Aunque tu cumpleaños ya pasó, no podía dejar de mencionarlo. ¡Espero que lo hayas celebrado rodeado de personas que te quieren! 
-    Este mensaje llega con un poco de retraso, pero con todo el cariño que merece una fecha tan especial.
-  </p>
-
-  <!-- Mensaje final -->
-  <p class="message">
-    🎁 Que esta Navidad traiga nuevos sueños, esperanza y momentos inolvidables.
-  </p>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="./script.js"></script>
+    <!-- Este contenido no se mostrará, ya que la página será redirigida inmediatamente -->
 </body>
 </html>

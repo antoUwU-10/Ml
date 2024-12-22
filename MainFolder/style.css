@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Cookie');
+@import url("https://fonts.googleapis.com/css?family=Lobster");
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower");
 
 body {
   background-color: #0b0050;
   width: 100%;
   height: 100vh; /* Asegura que el body ocupe toda la altura de la pantalla */
-  font-family: 'Cookie', cursive;
+  font-family: 'Cookie';
   overflow: hidden; /* Evita desplazamiento horizontal */
   margin: 0;
   display: flex; /* Usamos flexbox para centrar todo el contenido */
@@ -66,7 +68,7 @@ body {
 }
 
 .message {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #FFF;
   margin-top: 10px;
   line-height: 1.6;
