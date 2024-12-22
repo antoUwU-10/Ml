@@ -5,7 +5,7 @@
   box-sizing: border-box;}
 
 body {
-  background: #e5e5e5;
+  background:#0b0050;
 }
 
 
@@ -63,8 +63,7 @@ body {
 
 #card h1 {
   text-align: center;
-  font-family: "Lobster", cursive;
-  font-style: italic;
+  font-family: "Lobster";
   font-size: 70px;
   text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15), 1px 1px 0 #ffc8c8,
     2px 2px 0 #ff9696, 3px 3px 0 #ff7d7d;
@@ -72,11 +71,15 @@ body {
 }
 
 #card-inside {
-  font-size: 1.3em;
+  font-size: 1em;
   line-height: 1.4;
   font-family: "Lobster";
   color: #331717;
   font-style: italic;
+}
+.red-heart {
+  color: red;
+  font-size: 0.8em; /* Tamaño ajustable */
 }
 
 p {
@@ -417,8 +420,8 @@ footer {
   backface-visibility: hidden;
   background-position: center;
   background-size: cover;
-  -webkit-animation: fade-in 20s ease-in;
-  animation: fade-in 20s ease-in;
+  -webkit-animation: fade-in 5s ease-in;
+  animation: fade-in 5s ease-in;
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 }
